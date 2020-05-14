@@ -9,6 +9,7 @@ int main(int argc, char* argv[]) {
 }
 
 TreeNode* set_nodes_random(int val, int size) {
+	// make this a BST
 	TreeNode* root = set_random_root(val);
 	TreeNode* current = root;
 	for (int i = 1; i < size-1; ++i) {
