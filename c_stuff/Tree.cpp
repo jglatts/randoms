@@ -1,25 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "Tree.h"
 
 Tree::Tree() { 
+	srand(time(0));
 	root = NULL;
 }
 
 void Tree::add(int val) {
-	if (root == NULL) {
-		root = new TreeNode;
-		root->data = val;
-		root->left = NULL;
-		root->right = NULL;
-	}
-	else add(val, root);
+	if (root == NULL) 
+		root = setNewNode(val);
+	else 
+		add(val, root);
 }
 
 void Tree::add(int val, TreeNode* leaf) {
-	if (leaf->left == NULL)       leaf->left  = setNewNode(val);
-	else if (leaf->right == NULL) leaf->right = setNewNode(val);
-	else add(val, leaf->left);
+	if (leaf->left == NULL)       
+		leaf->left = setNewNode(val);
+	else if (leaf->right == NULL) 
+		leaf->right = setNewNode(val);
+	else 
+		add(val, leaf->left);
 }
 
 TreeNode* Tree::setNewNode(int val) {
@@ -32,12 +34,8 @@ TreeNode* Tree::setNewNode(int val) {
 
 void Tree::testTree(int size) {
 	Tree tree;
-	tree.add(69);
-	tree.add(420);
-	tree.add(26);
-	tree.add(15);
-	tree.add(180);
-	tree.add(2);
+	for (int i = 0; i < size; ++i)
+		tree.add((rand() % size) + 1);
 	tree.print(tree.root);
 }
 
