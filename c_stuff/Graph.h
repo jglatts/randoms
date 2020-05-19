@@ -8,6 +8,8 @@ public:
 	void addEdge(int, int);
 	void printGraph();
 	void testGraph(int);
+	bool hasEdge(int, int);
+	int findShortestPath(int, int);
 private:
 	vector<int> adj[100];
 	int size;
