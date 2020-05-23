@@ -1,0 +1,39 @@
+Test Date: 05/22/2020,
+Test Time: 01:51:51 PM,
+
+Test Status: TEST FAILED,
+Operator: JDG,
+Serial#: ZCC In-House Tester,
+Limits Set: LOW = 0, HIGH = 120
+Actual: LOW = 0, HIGH = OL
+Wire(s) Tested: 1-30
+R1  = 1
+R2  = 1
+R3  = 1
+R4  = 1
+R5  = 1
+R6  = 0
+R7  = 1
+R8  = 1
+R9  = 1
+R10 = 2
+R11 = 1
+R12 = OL
+R13 = OL
+R14 = OL
+R15 = 2
+R16 = 3
+R17 = 1
+R18 = OL
+R19 = 0
+R20 = 1
+R21 = 1
+R22 = 1
+R23 = 1
+R24 = 0
+R25 = 0
+R26 = 1
+R27 = 1
+R28 = 0
+R29 = 0
+R30 = 0
