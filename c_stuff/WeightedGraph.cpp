@@ -15,7 +15,7 @@ void WeightedGraph::addEdge(int u, int v, int w) {
 
 void WeightedGraph::printGraph() {
 	printf("\n---------------Printing Graph---------------\n");
-	printf("---------------Size = %d---------------\n", size);
+	printf("Nodes = %d\n", size);
 	for (int i = 0; i < size; ++i) {
 		int x = i + 1;
 		for (int j = 0; j < adj[x].size(); ++j) {
@@ -45,10 +45,10 @@ int WeightedGraph::findShortestPath(int source, int dest) {
 		if (!queue.empty()) {
 			int v = queue.front();
 			queue.pop();
-			marked->insert(source);
+			marked->insert(v);  
 			checkNeighbors(v);
 		}
-		else break;
+		else return -1;
 	}
 	return dist[dest];
 }
@@ -56,12 +56,10 @@ int WeightedGraph::findShortestPath(int source, int dest) {
 void WeightedGraph::checkNeighbors(int v) {
 	for (int i = 0; i < adj[v].size(); ++i) {
 		int x = adj[v].at(i);
-		if (!marked->count(x)) {
-			int edgeDist = cost[v].at(i);
-			int newDist = dist[v] + edgeDist;
-			if (newDist < dist[x]) dist[x] = newDist;
-			queue.push(x);
-		}
+		int edgeDist = cost[v].at(i);
+		int newDist = dist[v] + edgeDist;
+		if (newDist < dist[x]) dist[x] = newDist;
+		queue.push(x);
 	}
 }
 
