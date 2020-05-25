@@ -1,0 +1,39 @@
+Test Date: 05/24/2020,
+Test Time: 08:11:47 PM,
+
+Test Status: TEST PASSED,
+Operator: ,
+Serial#: ,
+Limits Set: LOW = 0, HIGH = 120
+Actual: LOW = 0, HIGH = 1
+Wire(s) Tested: 1-30
+R1  = 0
+R2  = 1
+R3  = 1
+R4  = 1
+R5  = 0
+R6  = 0
+R7  = 0
+R8  = 1
+R9  = 1
+R10 = 0
+R11 = 1
+R12 = 1
+R13 = 0
+R14 = 0
+R15 = 1
+R16 = 0
+R17 = 1
+R18 = 1
+R19 = 1
+R20 = 1
+R21 = 0
+R22 = 1
+R23 = 1
+R24 = 1
+R25 = 0
+R26 = 0
+R27 = 0
+R28 = 1
+R29 = 1
+R30 = 0

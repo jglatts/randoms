@@ -1,0 +1,49 @@
+Test Date: 05/24/2020,
+Test Time: 09:04:11 PM,
+
+Test Status: TEST PASSED,
+Operator: JDG,
+Serial#: Data Capture,
+Limits Set: LOW = 0, HIGH = 120
+Actual: LOW = 0, HIGH = 1
+Wire(s) Tested: 1-40
+R1  = 0
+R2  = 0
+R3  = 1
+R4  = 0
+R5  = 0
+R6  = 0
+R7  = 1
+R8  = 0
+R9  = 0
+R10 = 0
+R11 = 0
+R12 = 0
+R13 = 0
+R14 = 0
+R15 = 0
+R16 = 1
+R17 = 0
+R18 = 1
+R19 = 0
+R20 = 0
+R21 = 0
+R22 = 0
+R23 = 0
+R24 = 0
+R25 = 0
+R26 = 0
+R27 = 0
+R28 = 0
+R29 = 0
+R30 = 0
+R31 = 0
+R32 = 0
+R33 = 0
+R34 = 0
+R35 = 1
+R36 = 0
+R37 = 0
+R38 = 0
+R39 = 1
+R40 = 0
