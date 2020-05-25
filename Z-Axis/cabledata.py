@@ -47,7 +47,7 @@ class CableData(object):
         if (self.verbose):
             print("Testing: " + f.name + " Data File: " + str(self.count+1) + " Testing " + str(pins) + " pins, Errors: " + str(pincount) + "\n")       
         else:
-            print("Data File: " + str(self.count+1) + " Testing " + str(pins) + " pins, Errors: " + str(pincount))       
+            print("Data File: " + str(self.count+1) + " Testing " + str(pins) + " pins, Errors: " + str(pincount) + "\n")       
     
     def printResults(self):
         print("\nTested: " + str(self.count) + " cables")
