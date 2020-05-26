@@ -12,11 +12,14 @@ class CableData(object):
         self.verbose = False
 
     def readAllFiles(self):
-        files = [f for f in os.listdir('.') if os.path.isfile(f) and f[-1] != "y"]
+        files = [f for f in os.listdir('.') if self.isTextFile(f)]
         self.copy = files
         for f in files:
            self.readFile(f)
            self.count += 1
+    
+    def isTextFile(self, f):
+        return os.path.isfile(f) and f[-1] != "y"
 
     def readFile(self, filename):
         f = open(filename, "r")
