@@ -7,9 +7,12 @@ class CableData(object):
         self.count = 0
         self.totalErrors = 0
         self.totalPasses = 0
+        self.totalPinErrors = 0
+        self.totalPinPasses = 0
         self.copyoutput = ""
         self.copy = []
         self.verbose = False
+
 
     def readAllFiles(self):
         files = [f for f in os.listdir('.') if self.isTextFile(f)]
@@ -18,8 +21,10 @@ class CableData(object):
            self.readFile(f)
            self.count += 1
     
+
     def isTextFile(self, f):
         return os.path.isfile(f) and f[-1] != "y"
+
 
     def readFile(self, filename):
         f = open(filename, "r")
@@ -30,6 +35,7 @@ class CableData(object):
     
         self.readTestData(f)         
         f.close()
+
 
     def readTestData(self, f):
         passed = True
@@ -44,8 +50,15 @@ class CableData(object):
            s = f.readline().split()
            if (s[2] == check and check == "OL"):
                pincount += 1
+               self.totalPinErrors += 1
                passed = False
+           else:
+               self.totalPinPasses += 1
     
+        self.checkData(passed, f, pins, pincount)  
+    
+
+    def checkData(self, passed, f, pins, pincount):
         if (passed):
             self.totalPasses += 1
         else:
@@ -55,15 +68,19 @@ class CableData(object):
             print("Raw File = ")
             print(self.copyoutput + "\n")
         else:
-            print("Data File: " + str(self.count+1) + " Testing " + str(pins) + " pins, Errors: " + str(pincount) + "\n")       
-    
+            print("Data File: " + str(self.count+1) + " Testing " + str(pins) + " pins, Errors: " + str(pincount) + "\n")  
+
+
     def printResults(self):
         print("\nTested: " + str(self.count) + " cables")
         print("Total Passes: " + str(self.totalPasses))
         print("Total Errors: " + str(self.totalErrors))
+        print("Total Pin Passes: " + str(self.totalPinPasses))
+        print("Total Pin Errors: " + str(self.totalPinErrors))        
         sum = self.totalPasses + self.totalErrors
         print("%pass " + str(round((self.totalPasses / sum) * 100, 2)) + "%")
         print("%error " + str(round((self.totalErrors / sum) * 100, 2)) + "%")
+
 
     def copyFile(self):
         c = 1
@@ -74,11 +91,14 @@ class CableData(object):
             file.close()
             c += 1
 
-    def testData(self):
-        self.readAllFiles()
 
     def testData(self):
         self.readAllFiles()
+
+
+    def testData(self):
+        self.readAllFiles()
+
 
     def testDataVerbose(self):
         print("\n-------------------Verbose Output Enabled-------------------\n")
