@@ -7,10 +7,13 @@ class CableData(object):
         self.count = 0
         self.totalErrors = 0
         self.totalPasses = 0
+        self.copyoutput = ""
+        self.copy = []
         self.verbose = False
 
     def readAllFiles(self):
         files = [f for f in os.listdir('.') if os.path.isfile(f) and f[-1] != "y"]
+        self.copy = files
         for f in files:
            self.readFile(f)
            self.count += 1
@@ -46,6 +49,8 @@ class CableData(object):
             self.totalErrors += 1
         if (self.verbose):
             print("Testing: " + f.name + " Data File: " + str(self.count+1) + " Testing " + str(pins) + " pins, Errors: " + str(pincount) + "\n")       
+            print("Raw File = ")
+            print(self.copyoutput + "\n")
         else:
             print("Data File: " + str(self.count+1) + " Testing " + str(pins) + " pins, Errors: " + str(pincount) + "\n")       
     
@@ -57,6 +62,15 @@ class CableData(object):
         print("%pass " + str(round((self.totalPasses / sum) * 100, 2)) + "%")
         print("%error " + str(round((self.totalErrors / sum) * 100, 2)) + "%")
 
+    def copyFile(self):
+        c = 1
+        for f in self.copy:
+            file = open(f, "r")
+            print("\n--------------Test #" + str(c) + "--------------")
+            print(file.read())
+            file.close()
+            c += 1
+
     def testData(self):
         self.readAllFiles()
 
@@ -67,4 +81,5 @@ class CableData(object):
         print("\n-------------------Verbose Output Enabled-------------------\n")
         self.verbose = True
         self.readAllFiles()
+        self.copyFile()
         self.verbose = False
