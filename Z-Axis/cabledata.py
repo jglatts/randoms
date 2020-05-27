@@ -54,7 +54,7 @@ class CableData(object):
         #print data for each pin
         for x in range(pins):
            s = f.readline().split()
-           if (s[2] == check and self.hasFixtureFailed(check, limcheck)):
+           if (s[2] == check and self.fixtureFailed(check, limcheck)):
                pincount += 1
                self.totalPinErrors += 1
                passed = False   
@@ -66,7 +66,7 @@ class CableData(object):
         print("Resistance High Limit   = " + limcheck)    
 
     
-    def hasFixtureFailed(self, check, highlimit):
+    def fixtureFailed(self, check, highlimit):
         out = False
 
         if (check == "OL"):
