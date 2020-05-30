@@ -28,6 +28,7 @@ class CableData(object):
                 print()
            self.count += 1
 
+        
     def isTextFile(self, f):
         return os.path.isfile(f) and f[-1] != "y"
 
@@ -60,7 +61,7 @@ class CableData(object):
            if (s[2] == check and check == "OL"):
                errcount += 1
                self.totalPinErrors += 1
-               failed.append(x+1)
+               failed.append(x)
                self.passed = False   
            else:
                self.totalPinPasses += 1
@@ -81,7 +82,7 @@ class CableData(object):
             sys.stdout.write("\nData File: #" + str(self.count+1) + " Testing " + str(pins) + " pins, Errors: " + str(errcount))
             sys.stdout.write(", Failed Pins: ")
             for i in range(len(failed)):
-                pin = failed[i] # double check if correct pin
+                pin = failed[i] 
                 s = str(pin + 1) + " "
                 sys.stdout.write(s)
 
@@ -142,7 +143,6 @@ class CableData(object):
 
     def testData(self):
         self.readAllFiles()
-
 
 
     def testDataVerbose(self):
