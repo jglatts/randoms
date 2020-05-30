@@ -1,5 +1,8 @@
 import os
+import sys
+
 from decimal import *
+
 
 class CableData(object):
 
@@ -12,6 +15,7 @@ class CableData(object):
         self.totalOLErrors = 0
         self.copyoutput = ""
         self.copy = []
+        self.passed = True
         self.verbose = False
 
 
@@ -20,8 +24,9 @@ class CableData(object):
         self.copy = files
         for f in files:
            self.readFile(f)
+           if (not self.passed):
+                print()
            self.count += 1
-    
 
     def isTextFile(self, f):
         return os.path.isfile(f) and f[-1] != "y"
@@ -39,7 +44,8 @@ class CableData(object):
 
 
     def readTestData(self, f):
-        passed = True
+        self.passed = True
+        failed = []
         h = f.readline().split(" ")
         c = f.readline().split()
         p = f.readline().split("-")
@@ -54,32 +60,42 @@ class CableData(object):
            if (s[2] == check and check == "OL"):
                errcount += 1
                self.totalPinErrors += 1
-               passed = False   
+               failed.append(x+1)
+               self.passed = False   
            else:
                self.totalPinPasses += 1
         
-        self.checkData(passed, f, pins, errcount)  
-        print("Resistance Actual Value = " + check)
-        print("Resistance High Limit   = " + limcheck)    
+        self.checkData(f, pins, errcount, failed)  
+
+        if (self.verbose):
+            print("Resistance Actual Value = " + check)
+            print("Resistance High Limit   = " + limcheck)    
 
 
 
-    def checkData(self, passed, f, pins, errcount):
-        if (passed):
+    def checkData(self, f, pins, errcount, failed):
+        if (self.passed):
             self.totalPasses += 1
         else:
             self.totalErrors += 1
+            sys.stdout.write("\nData File: #" + str(self.count+1) + " Testing " + str(pins) + " pins, Errors: " + str(errcount))
+            sys.stdout.write(", Failed Pins: ")
+            for i in range(len(failed)):
+                pin = failed[i] # double check if correct pin
+                s = str(pin + 1) + " "
+                sys.stdout.write(s)
+
         if (self.verbose):
             print("Testing: " + f.name + " Data File: " + str(self.count+1) + " Testing " + str(pins) + " pins, Errors: " + str(errcount))       
             print("Raw File = ")
             print(self.copyoutput + "\n")
-        else:
             print("Data File #" + str(self.count+1) + ", Testing " + str(pins) + " pins, Errors: " + str(errcount))  
 
 
     def checkForOpens(self):
         count = 0
         files = [f for f in os.listdir('.') if self.isTextFile(f)]
+        
         for f in files:
             isopen = False
             file = open(f, "r")
