@@ -1,65 +1,45 @@
+#include <iostream>
+
 #define OLC_PGE_APPLICATION
+#include "ThreeCEngine.h"
 
-#include "olcPixelGameEngine.h"
-
-using namespace olc;
-
-// Override base class with your custom functionality
-class Example : public olc::PixelGameEngine
+class TCEExample : public olc::PixelGameEngine
 {
+	tce::Renderer renderer = tce::Renderer(this);
+	float z = 0;
+
 public:
-	Example()
+	int cam_position = 0;
+
+	TCEExample()
 	{
-		// Name you application
-		sAppName = "JDG";
+		sAppName = "ThreeCEngine Example";
+		//renderer.options.renderDistance[0] = 1; // Set the near render distance to 5
 	}
 
 public:
 	bool OnUserCreate() override
 	{
-		// called once at start
-		Clear(DARK_CYAN);
+		// Called once at the start, so create things here
 		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-		StartPixels(fElapsedTime);
+		Clear(olc::BLACK);
+		if (cam_position > 120) cam_position = 0;
+		renderer.camera.position.y = cam_position;
+		cam_position+=3;
+		tce::DrawCube(tce::Vec3D(-25, 0, 25), tce::Vec3D(50, 50, 50), &renderer);
+		renderer.render();
 		return true;
 	}
-
-	void StartPixels(float fElapsedTime)
-	{
-		printf("Mouse X = %d\nMouse Y = %d\n\n", GetMouseX(), GetMouseY());
-		if (GetMouseY() < 60) {
-			Clear(DARK_RED);
-			DrawString(50, 40, "JDG", Pixel(rand() % 256, rand() % 256, rand() % 256), 4);
-			DrawString(40, 120, "2020 Baby", Pixel(rand() % 256, rand() % 256, rand() % 256), 2);
-		}
-		else {
-			Clear(DARK_CYAN);
-			DrawString(50, 40, "JDG", Pixel(0, 0, 0), 4);
-			DrawString(40, 120, "2020 Baby", Pixel(0, 0, 0), 2);
-			DrawCircle(120, 170, 10);
-			FillCircle(120, 170, 20, DARK_RED);
-		}
-		if (CheckKeys()) {
-			Clear(DARK_YELLOW);
-			DrawString(20, 40, "BUTTON PRESSED", Pixel(0, 0, 0), 2);
-		}
-	}
-
-	bool CheckKeys() 
-	{
-		return GetKey(UP).bHeld || GetKey(DOWN).bHeld || GetKey(LEFT).bHeld || GetKey(RIGHT).bHeld;
-	}
-
 };
 
 int main()
 {
-	Example demo;
-	if (demo.Construct(256, 240, 4, 4))
-		demo.Start();
+	TCEExample app;
+	if (app.Construct(1024, 750, 1, 1, false, true))
+		app.Start();
 	return 0;
 }
