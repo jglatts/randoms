@@ -113,7 +113,7 @@ namespace tce
             return !(vertex.x == INVALID && vertex.y == INVALID);
         }
 
-        void render()
+        void render(olc::Pixel color = olc::WHITE)
         {
             for (int i = 0; i < renderPipeline.size(); i++)
             {
@@ -123,7 +123,7 @@ namespace tce
                 // Triangulation algorithm only for convex shapes
                 for (int j = 1; j < length - 1; j++)
                     if (vertexIsValid(face[0]) && vertexIsValid(face[j]) && vertexIsValid(face[j + 1]))
-                        game->FillTriangle(face[0], face[j], face[j + 1]);
+                        game->FillTriangle(face[0], face[j], face[j + 1], color);
             }
 
             renderPipeline.clear();

@@ -1,5 +1,6 @@
 ﻿  GUI_@.cpp
 C:\Users\johng\source\repos\GUI_@\GUI_@\ThreeCEngine.h(118,31): warning C4018: '<': signed/unsigned mismatch
 C:\Users\johng\source\repos\GUI_@\GUI_@\ThreeCEngine.h(147,31): warning C4018: '<': signed/unsigned mismatch
-C:\Users\johng\source\repos\GUI_@\GUI_@\GUI_@.cpp(31,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\johng\source\repos\GUI_@\GUI_@\JGThreeD.h(36,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\johng\source\repos\GUI_@\GUI_@\JGThreeD.h(37,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   GUI_@.vcxproj -> C:\Users\johng\source\repos\GUI_@\Debug\GUI_@.exe
