@@ -9,10 +9,10 @@ class TCEExample : public olc::PixelGameEngine
 public:
 	float z = 0;
 	tce::Renderer renderer       = tce::Renderer(this),
-				  renderer_two   = tce::Renderer(this),
-				  renderer_three = tce::Renderer(this),
-				  renderer_four  = tce::Renderer(this),
-				  renderer_five  = tce::Renderer(this);
+		      renderer_two   = tce::Renderer(this),
+		      renderer_three = tce::Renderer(this),
+		      renderer_four  = tce::Renderer(this),
+		      renderer_five  = tce::Renderer(this);
 
 	TCEExample()
 	{
