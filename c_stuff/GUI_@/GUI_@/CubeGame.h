@@ -11,11 +11,10 @@ class CubeGame : public olc::PixelGameEngine
 {
 private:
 	vector<tce::Renderer> renderer_list;	
+	vector<olc::vf2d> rect_list;
+	vector<olc::vf2d> rect_pos_list;
 	tce::Vec3D first_cube_vec = tce::Vec3D(-11, 0, 25);
 	olc::vf2d vBall = { 200.0f, 200.0f };
-	olc::vf2d vRect = { 200.0f, 200.0f };
-	olc::vf2d vRectPos = { 10.0f, 10.0f };
-
 
 	float fBallRadius = 5.0f;
 	float z = 0;
@@ -24,6 +23,7 @@ private:
 	int count = 5;
 	int speed = 5;
 	int new_cube_count = 0;
+	int new_rect_count = 1;
 
 public:
 	CubeGame()
@@ -33,6 +33,11 @@ public:
 
 	bool OnUserCreate() override
 	{
+		olc::vf2d vRect = { 200.0f, 200.0f };
+		olc::vf2d vRectPos = { float(rand() % ScreenWidth()), float(rand() % ScreenHeight()) };
+		rect_list.push_back(vRect);
+		rect_pos_list.push_back(vRect);
+
 		for (int i = 0; i < count; ++i)
 		{
 			renderer_list.push_back(tce::Renderer(this));
@@ -47,7 +52,7 @@ public:
 		SetCamPosition();
 		Clear(olc::BLACK);
 		DrawFirstCube();
-		DrawRect();
+		DrawRects();
 		return true;
 	}
 
@@ -72,6 +77,13 @@ public:
 		renderer_five_vect.render(GetRandomColor());
 	}
 
+	void DrawFirstRect()
+	{
+		for (int i = 0; i < rect_list.size(); ++i)
+		{
+		}
+	}
+
 	void DrawRandCube() 
 	{
 		tce::Renderer r = tce::Renderer(this);
@@ -87,9 +99,14 @@ public:
 
 	}
 
-	void DrawRect()
+	void DrawRects()
 	{
-		olc::PixelGameEngine::FillRect(vRectPos, vRect, olc::CYAN);
+		for (int i = 0; i < new_rect_count; ++i)
+		{
+			olc::vf2d vRect = rect_list.at(i);
+			olc::vf2d vRectPos = rect_pos_list.at(i);
+			olc::PixelGameEngine::FillRect(vRectPos, vRect, GetRandomColor());
+		}
 	}
 
 	void SetCamPosition()
@@ -150,7 +167,11 @@ public:
 	{
 		if (GetMouse(0).bHeld) 
 		{
-			vRectPos = { float(GetMouseX()), float(GetMouseY()) };
+			olc::vf2d vRect = { 200.0f, 200.0 };
+			olc::vf2d vRectPos = { float(rand() % ScreenWidth()), float(rand() % ScreenHeight()) };
+			rect_list.push_back(vRect);
+			rect_pos_list.push_back(vRectPos);
+			new_rect_count++;
 		}
 	}
 
