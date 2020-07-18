@@ -13,6 +13,7 @@ private:
 	vector<tce::Renderer> renderer_list;	
 	vector<olc::vf2d> rect_list;
 	vector<olc::vf2d> rect_pos_list;
+	vector <olc::Pixel> color_list;
 	tce::Vec3D first_cube_vec = tce::Vec3D(-11, 0, 25);
 	olc::vf2d vBall = { 200.0f, 200.0f };
 
@@ -22,8 +23,10 @@ private:
 	int cam_position_y = 0;
 	int count = 5;
 	int speed = 5;
+	int collisons = 0;
 	int new_cube_count = 0;
 	int new_rect_count = 1;
+	
 
 public:
 	CubeGame()
@@ -33,10 +36,11 @@ public:
 
 	bool OnUserCreate() override
 	{
-		olc::vf2d vRect = { 200.0f, 200.0f };
+		olc::vf2d vRect = { 75.0f, 75.0f };
 		olc::vf2d vRectPos = { float(rand() % ScreenWidth()), float(rand() % ScreenHeight()) };
 		rect_list.push_back(vRect);
-		rect_pos_list.push_back(vRect);
+		rect_pos_list.push_back(vRectPos);
+		color_list.push_back(GetRandomColor());
 
 		for (int i = 0; i < count; ++i)
 		{
@@ -50,7 +54,9 @@ public:
 		MoveWithBtn();
 		CheckMouseRect();
 		SetCamPosition();
+		if (MouseRectCollison()) collisons++;
 		Clear(olc::BLACK);
+		DrawHeaderString();
 		DrawFirstCube();
 		DrawRects();
 		return true;
@@ -77,11 +83,18 @@ public:
 		renderer_five_vect.render(GetRandomColor());
 	}
 
-	void DrawFirstRect()
+	void DrawHeaderString()
 	{
-		for (int i = 0; i < rect_list.size(); ++i)
-		{
-		}
+		string cube_str = "Cubes = " + to_string(new_rect_count);
+		string x_str = "Mouse X = " + to_string(GetMouseX());
+		string y_str = "Mouse Y = " + to_string(GetMouseY());
+		string cols_str = "Mouse Collisons = " + to_string(collisons);
+
+		olc::PixelGameEngine::DrawString(12, 45, "JDG 3D", olc::DARK_CYAN, 2);
+		olc::PixelGameEngine::DrawString(12, 69, cube_str, olc::DARK_CYAN, 2);
+		olc::PixelGameEngine::DrawString(12, 93, x_str, olc::DARK_CYAN, 2);
+		olc::PixelGameEngine::DrawString(12, 117, y_str, olc::DARK_CYAN, 2);
+		olc::PixelGameEngine::DrawString(12, 141, cols_str, olc::DARK_CYAN, 2);
 	}
 
 	void DrawRandCube() 
@@ -105,7 +118,8 @@ public:
 		{
 			olc::vf2d vRect = rect_list.at(i);
 			olc::vf2d vRectPos = rect_pos_list.at(i);
-			olc::PixelGameEngine::FillRect(vRectPos, vRect, GetRandomColor());
+			olc::Pixel pColor = color_list.at(i);
+			olc::PixelGameEngine::FillRect(vRectPos, vRect, pColor);
 		}
 	}
 
@@ -132,7 +146,7 @@ public:
 
 		for (int i = 0; i < count; ++i)
 		{
-			// have to use a pointer bc vectors store data at no-cts. locations xD
+			// have to use a pointer bc vectors store data at non-cts. locations xD
 			tce::Renderer* renderer = &renderer_list.at(i);
 			renderer->camera.position.x = cam_position_x;
 			renderer->camera.position.y = cam_position_y;
@@ -165,14 +179,47 @@ public:
 
 	void CheckMouseRect()
 	{
-		if (GetMouse(0).bHeld) 
+		if (GetMouse(0).bPressed) 
 		{
-			olc::vf2d vRect = { 200.0f, 200.0 };
+			olc::vf2d vRect = { 75.0f, 75.0 };
 			olc::vf2d vRectPos = { float(rand() % ScreenWidth()), float(rand() % ScreenHeight()) };
+			olc::Pixel pColor = GetRandomColor();
 			rect_list.push_back(vRect);
 			rect_pos_list.push_back(vRectPos);
-			new_rect_count++;
+			color_list.push_back(GetRandomColor());
+			new_rect_count++;	// this is firing off, try and slow it down
 		}
+	}
+
+	bool MouseRectCollison()
+	{
+		// right idea, but just remove all instances 
+		// from the vector instead of drawing black ones
+		for (int i = 0; i < rect_pos_list.size(); ++i)
+		{
+			olc::vf2d vRectPos = rect_pos_list.at(i);
+			if (GetMouseX() == vRectPos.x || GetMouseX() == vRectPos.y) 
+			{
+				DeleteRect(vRectPos);
+				auto itr = color_list.begin() + i;
+				color_list.insert(itr, olc::BLACK);
+				return true;
+			}
+			if (GetMouseY() == vRectPos.x || GetMouseY() == vRectPos.y)
+			{
+				DeleteRect(vRectPos);
+				auto itr = color_list.begin() + i;
+				color_list.insert(itr, olc::BLACK);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void DeleteRect(olc::vf2d vRectPos) 
+	{
+		olc::vf2d vRect = { 75.0f, 75.0f };
+		olc::PixelGameEngine::FillRect(vRectPos, vRect, olc::BLACK);
 	}
 
 	void CheckMouseGrab()
@@ -180,6 +227,7 @@ public:
 		int m = GetMouseWheel();
 		int x = 1;
 		cout << "\nMouse Wheel = " << m << "\n" << endl;
+
 		if (olc::PixelGameEngine::GetMouse(0).bHeld)
 		{
 			cout << "\nMOUSE GRAB\n" << endl;
