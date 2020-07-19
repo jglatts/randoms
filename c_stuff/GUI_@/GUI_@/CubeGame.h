@@ -114,7 +114,7 @@ public:
 
 	void DrawRects()
 	{
-		for (int i = 0; i < new_rect_count; ++i)
+		for (int i = 0; i < rect_pos_list.size(); ++i)
 		{
 			olc::vf2d vRect = rect_list.at(i);
 			olc::vf2d vRectPos = rect_pos_list.at(i);
@@ -193,33 +193,28 @@ public:
 
 	bool MouseRectCollison()
 	{
-		// right idea, but just remove all instances 
-		// from the vector instead of drawing black ones
 		for (int i = 0; i < rect_pos_list.size(); ++i)
 		{
 			olc::vf2d vRectPos = rect_pos_list.at(i);
 			if (GetMouseX() == vRectPos.x || GetMouseX() == vRectPos.y) 
 			{
-				DeleteRect(vRectPos);
-				auto itr = color_list.begin() + i;
-				color_list.insert(itr, olc::BLACK);
+				DeleteRect(i);
 				return true;
 			}
 			if (GetMouseY() == vRectPos.x || GetMouseY() == vRectPos.y)
 			{
-				DeleteRect(vRectPos);
-				auto itr = color_list.begin() + i;
-				color_list.insert(itr, olc::BLACK);
+				DeleteRect(i);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	void DeleteRect(olc::vf2d vRectPos) 
+	void DeleteRect(int i) 
 	{
-		olc::vf2d vRect = { 75.0f, 75.0f };
-		olc::PixelGameEngine::FillRect(vRectPos, vRect, olc::BLACK);
+		rect_list.erase(rect_list.begin() + i);
+		rect_pos_list.erase(rect_pos_list.begin() + i);
+		color_list.erase(color_list.begin() + i);
 	}
 
 	void CheckMouseGrab()
