@@ -26,7 +26,6 @@ private:
 	int collisons = 0;
 	int new_cube_count = 0;
 	int new_rect_count = 1;
-	
 
 public:
 	CubeGame()
