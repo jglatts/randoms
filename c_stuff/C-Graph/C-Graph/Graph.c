@@ -41,8 +41,7 @@ void read_new_graph_file(char file_name[80]) {
 		*/
 	}
 	else 
-		printf("Could not open file");
-	
+		printf("Could not open file");	
 }
 
 void print_edge_info(Node* n) {
